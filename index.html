@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ========== CSS VARIABLES ========== */
+    :root {
+      /* Dark Mode (default) — 70% Navy / 20% Steel Blue / 10% Cyan */
+      --bg-primary:    #070F1E;
+      --bg-secondary:  #0D1B2E;
+      --bg-card:       #0F2040;
+      --navy:          #0B1D3A;
+      --steel:         #1A5F8A;
+      --steel-light:   #2476A8;
+      --accent:        #00C8FF;
+      --accent-glow:   rgba(0,200,255,.35);
+      --text-primary:  #EAF4FF;
+      --text-secondary:#8FBCD4;
+      --text-muted:    #4A7A9B;
+      --border:        rgba(0,200,255,.15);
+      --shadow:        0 8px 32px rgba(0,0,0,.6);
+      --nav-blur:      rgba(7,15,30,.85);
+    }
+
+    [data-theme="light"] {
+      --bg-primary:    #E8F4FD;
+      --bg-secondary:  #D6ECF9;
+      --bg-card:       #FFFFFF;
+      --navy:          #0B1D3A;
+      --steel:         #1A5F8A;
+      --steel-light:   #2476A8;
+      --accent:        #0078D4;
+      --accent-glow:   rgba(0,120,212,.25);
+      --text-primary:  #0B1D3A;
+      --text-secondary:#1A5F8A;
+      --text-muted:    #4A7A9B;
+      --border:        rgba(0,120,212,.2);
+      --shadow:        0 8px 32px rgba(0,0,0,.12);
+      --nav-blur:      rgba(232,244,253,.9);
+    }
+
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      cursor: none;
+      overflow-x: hidden;
+      transition: background .4s, color .4s;
+    }
+
+    /* ========== CUSTOM CURSOR ========== */
+    #cursor-outer {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .12s ease, width .2s, height .2s, border-color .2s, background .2s;
+      mix-blend-mode: normal;
+    }
+    #cursor-inner {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .06s ease;
+      box-shadow: 0 0 10px var(--accent);
+    }
+    body:hover #cursor-outer { opacity:1; }
+    a:hover ~ #cursor-outer,
+    button:hover ~ #cursor-outer { width:50px; height:50px; background: var(--accent-glow); }
+
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--steel); border-radius:10px; }
+
+    /* ========== NOISE OVERLAY ========== */
+    body::before {
+      content:'';
+      position:fixed; inset:0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+      pointer-events:none;
+      z-index:0;
+      opacity:.4;
+    }
+
+    /* ========== NAVIGATION ========== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: var(--nav-blur);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      transition: background .4s;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* ======== LOGO PLACEHOLDER — REPLACE WITH YOUR LOGO ======== */
+    .logo-placeholder {
+      width: 44px; height: 44px;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.2;
+      transition: border-color .3s;
+      overflow: hidden;
+    }
+    /* To use your logo: replace the .logo-placeholder div content with <img src="your-logo.png" style="width:100%;height:100%;object-fit:contain;" /> */
+
+    .logo-placeholder:hover { border-color: var(--accent); border-style: solid; }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: .9rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 8px;
+      transition: color .3s, background .3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content:'';
+      position:absolute;
+      bottom:4px; left:50%;
+      transform:translateX(-50%) scaleX(0);
+      width:60%; height:2px;
+      background:var(--accent);
+      border-radius:2px;
+      transition:transform .3s ease;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: translateX(-50%) scaleX(1); }
+    .nav-links a.active { color: var(--accent); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* ========== THEME TOGGLE ========== */
+    .theme-toggle {
+      width: 52px; height: 28px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      position: relative;
+      transition: background .3s;
+      outline: none;
+    }
+    .theme-toggle::before {
+      content:'';
+      position:absolute;
+      top:3px; left:3px;
+      width:20px; height:20px;
+      border-radius:50%;
+      background: var(--accent);
+      transition: transform .3s, background .3s;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    [data-theme="light"] .theme-toggle::before { transform: translateX(24px); }
+
+    .theme-icon {
+      position:absolute;
+      top:50%; right:6px;
+      transform:translateY(-50%);
+      font-size:11px;
+      color:var(--text-muted);
+      pointer-events:none;
+    }
+    [data-theme="light"] .theme-icon { right:auto; left:6px; }
+
+    /* ========== SECTIONS GENERAL ========== */
+    section {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 120px 8% 80px;
+    }
+
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: .75rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content:'';
+      display:inline-block;
+      width:30px; height:2px;
+      background:var(--accent);
+      border-radius:2px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    /* ========== HOME / HERO ========== */
+    #home {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      align-items: center;
+      gap: 60px;
+      padding-top: 110px;
+      padding-bottom: 60px;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Floating decorative dots (matches reference image) */
+    .hero-dot {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-dot-1 {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      top: 28%;
+      left: 52%;
+      animation: pulseDot 2.5s ease-in-out infinite;
+      box-shadow: 0 0 12px var(--accent);
+    }
+    .hero-dot-2 {
+      width: 38px; height: 38px;
+      border: 1.5px solid var(--steel-light);
+      top: 24%;
+      left: 64%;
+      animation: pulseDot 3s ease-in-out infinite 1s;
+      opacity: .5;
+    }
+    .hero-dot-3 {
+      width: 6px; height: 6px;
+      background: var(--steel-light);
+      bottom: 32%;
+      left: 44%;
+      animation: pulseDot 2s ease-in-out infinite .5s;
+      opacity:.7;
+    }
+    @keyframes pulseDot {
+      0%,100% { transform:scale(1); opacity:.8; }
+      50%      { transform:scale(1.3); opacity:1; }
+    }
+
+    .hero-content {
+      min-width: 0; /* prevent grid blowout */
+    }
+
+    /* Availability pill */
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,200,255,.08);
+      border: 1px solid rgba(0,200,255,.3);
+      border-radius: 30px;
+      padding: 7px 18px;
+      font-size: .78rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp .5s .1s forwards;
+    }
+    .hero-pill-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulseDot 1.6s ease-in-out infinite;
+    }
+
+    /* "Hi, I'm" line */
+    .hero-hi {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.05;
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeUp .55s .25s forwards;
+    }
+
+    /* Big name in accent color */
+    .hero-bigname {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 6.5vw, 5.8rem);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.0;
+      margin-bottom: 4px;
+      opacity: 0;
+      animation: fadeUp .55s .4s forwards;
+      letter-spacing: -.01em;
+    }
+
+    /* "IT Student" hollow/outline text */
+    .hero-role-outline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-weight: 800;
+      line-height: 1.0;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp .55s .55s forwards;
+      /* Outline / stroke effect */
+      color: transparent;
+      -webkit-text-stroke: 2px var(--accent);
+      text-stroke: 2px var(--accent);
+      letter-spacing: .02em;
+    }
+
+    .hero-bio {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 500px;
+      margin-bottom: 40px;
+      font-size: .98rem;
+      opacity: 0;
+      animation: fadeUp .55s .7s forwards;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .55s .85s forwards;
+    }
+
+    .btn-primary {
+      padding: 14px 34px;
+      background: var(--accent);
+      color: #070F1E;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      letter-spacing: .06em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow: 0 0 44px var(--accent-glow); }
+
+    .btn-outline {
+      padding: 14px 34px;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: .9rem;
+      letter-spacing: .06em;
+      border: 1.5px solid rgba(0,200,255,.35);
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform:translateY(-3px); }
+
+    /* ======== PHONE-CARD PHOTO (matches reference) ======== */
+    .hero-image-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      animation: fadeIn .9s .5s forwards;
+    }
+
+    .hero-phone-card {
+      width: 280px;
+      height: 420px;
+      border-radius: 36px;
+      border: 2px solid rgba(0,200,255,.4);
+      overflow: hidden;
+      position: relative;
+      background: var(--bg-card);
+      box-shadow: 0 0 60px rgba(0,200,255,.15), 0 30px 80px rgba(0,0,0,.5);
+    }
+
+    /* Accent dot top-left of card (from reference image) */
+    .hero-phone-card::before {
+      content:'';
+      position:absolute;
+      top: 16px; left: 16px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      z-index: 3;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    /* Subtle gradient overlay at bottom of card */
+    .hero-phone-card::after {
+      content:'';
+      position:absolute;
+      bottom:0; left:0; right:0;
+      height: 120px;
+      background: linear-gradient(to top, rgba(7,15,30,.7), transparent);
+      z-index: 2;
+      pointer-events:none;
+    }
+
+    /* ======== PROFILE PHOTO PLACEHOLDER ======== */
+    .photo-placeholder {
+      width:100%; height:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      color:var(--text-muted);
+      font-size:.8rem;
+      text-align:center;
+      gap:10px;
+      background: linear-gradient(160deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+    }
+    .photo-placeholder i { font-size:3rem; color:var(--steel); }
+    /*
+      TO USE YOUR PHOTO:
+      Replace <div class="photo-placeholder">...</div> with:
+      <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;object-position:top;" />
+    */
+
+    /* Navigation arrows on card (from reference image) */
+    .card-arrows {
+      position: absolute;
+      bottom: 20px;
+      right: 16px;
+      display: flex;
+      gap: 6px;
+      z-index: 4;
+    }
+    .card-arrow {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,200,255,.4);
+      background: rgba(7,15,30,.7);
+      backdrop-filter: blur(8px);
+      color: var(--accent);
+      font-size: .75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .card-arrow:hover { background: rgba(0,200,255,.2); border-color: var(--accent); }
+
+    /* Float animation for the whole card */
+    .hero-phone-card {
+      animation: fadeIn .9s .5s forwards, floatCard 4s ease-in-out 1.4s infinite;
+    }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0px) rotate(0deg); }
+      50%      { transform: translateY(-12px) rotate(.4deg); }
+    }
+
+    @keyframes float {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-8px); }
+    }
+
+    /* ========== ABOUT ========== */
+    #about {
+      display:flex;
+      flex-direction:column;
+    }
+
+    .about-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:start;
+      margin-top:40px;
+    }
+
+    .about-text p {
+      color:var(--text-secondary);
+      line-height:1.85;
+      margin-bottom:18px;
+    }
+
+    .info-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:28px;
+    }
+
+    .info-item {
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:14px 18px;
+    }
+    .info-item .label {
+      font-size:.72rem;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:var(--text-muted);
+      margin-bottom:4px;
+    }
+    .info-item .value {
+      font-family:'Syne',sans-serif;
+      font-weight:600;
+      font-size:.95rem;
+      color:var(--text-primary);
+    }
+
+    /* Skills */
+    .skills-column {}
+    .skills-heading {
+      font-family:'Syne',sans-serif;
+      font-size:1rem;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--text-muted);
+      margin-bottom:20px;
+      margin-top:10px;
+    }
+
+    .skill-category {
+      margin-bottom:28px;
+    }
+    .skill-cat-label {
+      font-size:.75rem;
+      color:var(--accent);
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+      font-weight:600;
+    }
+    .skill-tags {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .skill-tag {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:30px;
+      padding:8px 16px;
+      font-size:.83rem;
+      color:var(--text-secondary);
+      transition:border-color .3s, color .3s, transform .2s;
+      cursor:default;
+    }
+    .skill-tag:hover {
+      border-color:var(--accent);
+      color:var(--accent);
+      transform:translateY(-2px);
+    }
+    .skill-tag i { font-size:.9rem; color:var(--accent); }
+
+    /* ========== WORK ========== */
+    #work { min-height:auto; }
+
+    /* Tabs */
+    .work-tabs {
+      display:flex;
+      gap:8px;
+      margin:30px 0 40px;
+      border-bottom:1px solid var(--border);
+      padding-bottom:0;
+    }
+    .tab-btn {
+      padding:10px 24px;
+      background:transparent;
+      border:none;
+      font-family:'Syne',sans-serif;
+      font-weight:600;
+      font-size:.9rem;
+      color:var(--text-muted);
+      cursor:pointer;
+      border-bottom:2px solid transparent;
+      transition:color .3s, border-color .3s;
+      margin-bottom:-1px;
+      letter-spacing:.05em;
+    }
+    .tab-btn:hover { color:var(--text-primary); }
+    .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+
+    /* Portfolio Slider */
+    .slider-wrap {
+      position:relative;
+      overflow:hidden;
+      border-radius:16px;
+    }
+
+    .slides-track {
+      display:flex;
+      transition:transform .65s cubic-bezier(.77,0,.175,1);
+    }
+
+    .slide {
+      min-width:100%;
+      position:relative;
+    }
+
+    /* ======== WEBSITE/WORK SLIDE — REPLACE PLACEHOLDER WITH YOUR SCREENSHOT ======== */
+    .work-slide-inner {
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .work-screenshot {
+      width:100%;
+      height:380px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .work-img-placeholder {
+      width:100%;
+      height:380px;
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      color:var(--text-muted);
+      gap:12px;
+      font-size:.9rem;
+    }
+    .work-img-placeholder i { font-size:3rem; color:var(--steel); }
+
+    .work-info {
+      padding:24px 28px;
+    }
+    .work-info h3 {
+      font-family:'Syne',sans-serif;
+      font-size:1.25rem;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .work-info p {
+      color:var(--text-secondary);
+      font-size:.9rem;
+      line-height:1.7;
+      margin-bottom:14px;
+    }
+
+    .work-tags {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .work-tag {
+      padding:4px 12px;
+      background:rgba(0,200,255,.1);
+      border:1px solid rgba(0,200,255,.2);
+      border-radius:20px;
+      font-size:.78rem;
+      color:var(--accent);
+    }
+
+    /* Slider Controls */
+    .slider-controls {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      margin-top:24px;
+    }
+
+    .slide-btn {
+      width:42px; height:42px;
+      border-radius:50%;
+      border:1.5px solid var(--border);
+      background:var(--bg-card);
+      color:var(--text-secondary);
+      font-size:1rem;
+      cursor:pointer;
+      transition:border-color .3s, color .3s, background .3s;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .slide-btn:hover { border-color:var(--accent); color:var(--accent); background:rgba(0,200,255,.08); }
+
+    .slide-dots {
+      display:flex;
+      gap:8px;
+    }
+    .dot {
+      width:8px; height:8px;
+      border-radius:4px;
+      background:var(--text-muted);
+      cursor:pointer;
+      transition:width .3s, background .3s;
+    }
+    .dot.active { width:24px; background:var(--accent); }
+
+    /* Certificates */
+    .cert-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+      gap:20px;
+    }
+
+    .cert-card {
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      transition:transform .3s, box-shadow .3s, border-color .3s;
+    }
+    .cert-card:hover {
+      transform:translateY(-6px);
+      box-shadow:0 16px 40px rgba(0,200,255,.12);
+      border-color:rgba(0,200,255,.35);
+    }
+
+    /* ======== CERTIFICATE IMAGE PLACEHOLDER — REPLACE WITH YOUR CERT PHOTO ======== */
+    .cert-img {
+      width:100%;
+      height:180px;
+      object-fit:cover;
+    }
+    .cert-img-placeholder {
+      width:100%;
+      height:180px;
+      background:linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      color:var(--text-muted);
+      gap:8px;
+      font-size:.82rem;
+    }
+    .cert-img-placeholder i { font-size:2.5rem; color:var(--steel); }
+
+    .cert-info { padding:16px 18px; }
+    .cert-info h4 {
+      font-family:'Syne',sans-serif;
+      font-weight:700;
+      font-size:.95rem;
+      margin-bottom:6px;
+    }
+    .cert-info p {
+      font-size:.82rem;
+      color:var(--text-muted);
+    }
+
+    /* ========== CONTACT ========== */
+    #contact {
+      min-height:auto;
+      padding-bottom:100px;
+    }
+
+    .contact-wrap {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      margin-top:50px;
+      align-items:start;
+    }
+
+    .contact-text h3 {
+      font-family:'Syne',sans-serif;
+      font-size:1.8rem;
+      font-weight:700;
+      margin-bottom:16px;
+      line-height:1.3;
+    }
+    .contact-text p {
+      color:var(--text-secondary);
+      line-height:1.8;
+      margin-bottom:30px;
+    }
+
+    .contact-item {
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:18px 20px;
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:12px;
+      margin-bottom:14px;
+      text-decoration:none;
+      color:var(--text-primary);
+      transition:border-color .3s, transform .2s, box-shadow .3s;
+    }
+    .contact-item:hover {
+      border-color:var(--accent);
+      transform:translateX(6px);
+      box-shadow:0 4px 20px var(--accent-glow);
+    }
+
+    .contact-icon {
+      width:44px; height:44px;
+      border-radius:10px;
+      background:rgba(0,200,255,.1);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.2rem;
+      color:var(--accent);
+      flex-shrink:0;
+    }
+    .contact-icon.fb   { background:rgba(24,119,242,.15); color:#1877F2; }
+    .contact-icon.ig   { background:rgba(225,48,108,.15); color:#E1306C; }
+    .contact-icon.li   { background:rgba(0,119,181,.15);  color:#0077B5; }
+    .contact-icon.gh   { background:rgba(110,118,129,.15);color:#6E7681; }
+    .contact-icon.em   { background:rgba(0,200,255,.15);  color:var(--accent); }
+
+    .contact-label {
+      font-size:.72rem;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--text-muted);
+      margin-bottom:2px;
+    }
+    .contact-value {
+      font-weight:500;
+      font-size:.95rem;
+    }
+
+    /* Location card */
+    .location-card {
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+    }
+    .location-map {
+      width:100%;
+      height:220px;
+      background:linear-gradient(135deg, var(--bg-secondary), var(--navy));
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      color:var(--text-muted);
+      gap:10px;
+      font-size:.9rem;
+    }
+    .location-map i { font-size:2.5rem; color:var(--accent); }
+    .location-body {
+      padding:20px;
+    }
+    .location-body h4 {
+      font-family:'Syne',sans-serif;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+    .location-body p {
+      font-size:.85rem;
+      color:var(--text-muted);
+    }
+
+    /* ========== FOOTER ========== */
+     footer {
+      padding: 32px 60px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--navy-deepest);
+    }
+    .footer-left {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer-left span { color: var(--accent); }
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .footer-link {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .footer-link:hover { color: var(--accent); }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(30px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity:0; }
+      to   { opacity:1; }
+    }
+
+    .reveal {
+      opacity:0;
+      transform:translateY(40px);
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    /* Stagger children */
+    .reveal-stagger > * {
+      opacity:0;
+      transform:translateY(30px);
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    .reveal-stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:.05s; }
+    .reveal-stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:.15s; }
+    .reveal-stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:.25s; }
+    .reveal-stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:.35s; }
+    .reveal-stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:.45s; }
+    .reveal-stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:.55s; }
+
+    /* ========== GLOW BLOB BG ========== */
+    .blob {
+      position:absolute;
+      border-radius:50%;
+      filter:blur(120px);
+      pointer-events:none;
+      z-index:0;
+    }
+    .blob-1 {
+      width:500px; height:500px;
+      background:rgba(0,100,180,.15);
+      top:-100px; right:-100px;
+    }
+    .blob-2 {
+      width:400px; height:400px;
+      background:rgba(0,200,255,.07);
+      bottom:100px; left:-80px;
+    }
+
+    /* Divider */
+    .section-divider {
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--border), transparent);
+      margin:0 0 0;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media(max-width:900px) {
+      #home { grid-template-columns:1fr; grid-template-rows:auto auto; text-align:center; padding-top:110px; }
+      #home .hero-image-wrap { order:-1; }
+      .hero-btns { justify-content:center; }
+      .hero-phone-card { width:200px; height:300px; }
+      .hero-dot-1,.hero-dot-2,.hero-dot-3 { display:none; }
+      .about-grid { grid-template-columns:1fr; }
+      .contact-wrap { grid-template-columns:1fr; }
+      section { padding:100px 5% 60px; }
+    }
+
+    @media(max-width:600px) {
+      .nav-links { gap:4px; }
+      .nav-links a { padding:6px 10px; font-size:.78rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Custom Cursor -->
+  <div id="cursor-outer"></div>
+  <div id="cursor-inner"></div>
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav id="navbar">
+    <!-- LOGO — links to #home -->
+    <a href="#home" class="logo-area" id="logo-link">
+      <div class="logo-placeholder">
+          <img src="logo.png" style="width:100%;height:100%;object-fit:contain;" />
+      </div>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home"    class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-moon theme-icon" id="themeIcon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== HOME ==================== -->
+  <section id="home">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Floating decorative dots -->
+    <div class="hero-dot hero-dot-1"></div>
+    <div class="hero-dot hero-dot-2"></div>
+    <div class="hero-dot hero-dot-3"></div>
+
+    <div class="hero-content">
+
+      <!-- Availability pill -->
+      <div class="hero-pill">
+        <span class="hero-pill-dot"></span>
+        Available for Freelance &amp; Projects
+      </div>
+
+      <!-- "Hi, I'm" -->
+      <div class="hero-hi">Hi, I'm</div>
+
+      <!-- Big name in accent -->
+      <div class="hero-bigname">
+        <!-- REPLACE WITH YOUR NAME -->
+        Nick Aeron<br />Comia
+      </div>
+
+      <!-- Outline role text -->
+      <div class="hero-role-outline">IT Student</div>
+
+      <p class="hero-bio">
+        <!-- REPLACE WITH YOUR OWN BIO -->
+        IT student at Batangas State University passionate about web development and UI/UX design — building purposeful digital experiences one project at a time.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#work" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+
+    <!-- Phone-card style photo (matches reference image) -->
+    <div class="hero-image-wrap">
+      <div class="hero-phone-card">
+        <!--
+          ╔══════════════════════════════════════════╗
+          ║  REPLACE YOUR PROFILE PHOTO HERE         ║
+          ║  Delete the photo-placeholder div below  ║
+          ║  and use:                                ║
+          ║  <img src="your-photo.jpg"               ║
+          ║       style="width:100%;height:100%;     ║
+          ║              object-fit:cover;           ║
+          ║              object-position:top;" />    ║
+          ╚══════════════════════════════════════════╝
+        -->
+        <img src="pfp.JPG"              
+             style="width:100%;height:100%;    
+              object-fit:cover;          
+              object-position:top;" /> 
+
+        <!-- Nav arrows overlay (decorative, like reference image) -->
+        <div class="card-arrows">
+          <div class="card-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+          <div class="card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section id="about">
+    <p class="section-label reveal">About Me</p>
+    <h2 class="section-title reveal">A Little About<br /><span style="color:var(--accent)">Myself</span></h2>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          <!-- REPLACE WITH YOUR ABOUT TEXT -->
+          Hi! I'm a 3rd-year IT student at Batangas State University – JPLPC Malvar Campus, taking up Business Analytics for IT. I'm passionate about creating clean, functional, and visually engaging digital solutions.
+        </p>
+        <p>
+          <!-- ADD MORE ABOUT YOURSELF HERE -->
+          My interests span across web development, UI/UX design, data analysis, and technical support. I enjoy turning complex problems into simple, beautiful, and intuitive designs.
+        </p>
+
+        <div class="info-grid reveal-stagger">
+          <div class="info-item">
+            <div class="label">Degree</div>
+            <div class="value">BS Info. Technology</div>
+          </div>
+          <div class="info-item">
+            <div class="label">Major</div>
+            <div class="value">Business Analytics</div>
+          </div>
+          <div class="info-item">
+            <div class="label">University</div>
+            <div class="value">BatStateU Malvar</div>
+          </div>
+          <div class="info-item">
+            <div class="label">Year Level</div>
+            <div class="value">3rd Year</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="skills-column reveal">
+        <p class="skills-heading">Technical Skills</p>
+
+        <div class="skill-category">
+          <div class="skill-cat-label"><i class="fa-solid fa-code" style="margin-right:6px"></i>Languages & Markup</div>
+          <div class="skill-tags reveal-stagger">
+            <div class="skill-tag"><i class="fa-brands fa-html5"></i>HTML</div>
+            <div class="skill-tag"><i class="fa-brands fa-css3-alt"></i>CSS</div>
+            <div class="skill-tag"><i class="fa-brands fa-python"></i>Python</div>
+            <div class="skill-tag"><i class="fa-solid fa-database"></i>SQL</div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-label"><i class="fa-solid fa-pen-ruler" style="margin-right:6px"></i>Design & UX</div>
+          <div class="skill-tags reveal-stagger">
+            <div class="skill-tag"><i class="fa-solid fa-palette"></i>UI/UX Design</div>
+            <div class="skill-tag"><i class="fa-brands fa-figma"></i>Figma</div>
+            <div class="skill-tag"><i class="fa-solid fa-sitemap"></i>Wireframing</div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-label"><i class="fa-solid fa-screwdriver-wrench" style="margin-right:6px"></i>Tools & Support</div>
+          <div class="skill-tags reveal-stagger">
+            <div class="skill-tag"><i class="fa-solid fa-code"></i>VS Code</div>
+            <div class="skill-tag"><i class="fa-solid fa-headset"></i>Technical Support</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== WORK ==================== -->
+  <section id="work">
+    <p class="section-label reveal">Portfolio</p>
+    <h2 class="section-title reveal">My <span style="color:var(--accent)">Work</span></h2>
+
+    <!-- TABS -->
+    <div class="work-tabs reveal">
+      <button class="tab-btn active" data-tab="websites">Projects
+      </button>
+      <button class="tab-btn" data-tab="certificates">Certificates</button>
+    </div>
+
+    <!-- WEBSITES TAB -->
+    <div class="tab-content active" id="tab-websites">
+      <div class="slider-wrap reveal">
+        <div class="slides-track" id="slidesTrack">
+
+          <!-- ===== SLIDE 1 — REPLACE WITH YOUR SITE ===== -->
+          <div class="slide">
+            <div class="work-slide-inner">
+              <!--
+                REPLACE BELOW WITH YOUR WEBSITE SCREENSHOT:
+                <img src="site1-screenshot.jpg" class="work-screenshot" alt="Project 1" />
+              -->
+              <div class="work-img-placeholder">
+                <i class="fa-solid fa-globe"></i>
+                <span>Replace with screenshot of Site 1<br/><code style="font-size:.75rem">site1-screenshot.jpg</code></span>
+              </div>
+              <div class="work-info">
+                <h3>Project Title 1</h3>
+                <p>Short description of this website project. What it does, who it's for, and what you built.</p>
+                <div class="work-tags">
+                  <span class="work-tag">HTML</span>
+                  <span class="work-tag">CSS</span>
+                  <span class="work-tag">Python</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== SLIDE 2 ===== -->
+          <div class="slide">
+            <div class="work-slide-inner">
+              <!--
+                REPLACE BELOW WITH YOUR WEBSITE SCREENSHOT:
+                <img src="site2-screenshot.jpg" class="work-screenshot" alt="Project 2" />
+              -->
+              <div class="work-img-placeholder">
+                <i class="fa-solid fa-globe"></i>
+                <span>Replace with screenshot of Site 2<br/><code style="font-size:.75rem">site2-screenshot.jpg</code></span>
+              </div>
+              <div class="work-info">
+                <h3>Project Title 2</h3>
+                <p>Short description of this website project. What it does, who it's for, and what you built.</p>
+                <div class="work-tags">
+                  <span class="work-tag">UI/UX</span>
+                  <span class="work-tag">Figma</span>
+                  <span class="work-tag">CSS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== SLIDE 3 ===== -->
+          <div class="slide">
+            <div class="work-slide-inner">
+              <!--
+                REPLACE BELOW WITH YOUR WEBSITE SCREENSHOT:
+                <img src="site3-screenshot.jpg" class="work-screenshot" alt="Project 3" />
+              -->
+              <div class="work-img-placeholder">
+                <i class="fa-solid fa-globe"></i>
+                <span>Replace with screenshot of Site 3<br/><code style="font-size:.75rem">site3-screenshot.jpg</code></span>
+              </div>
+              <div class="work-info">
+                <h3>Project Title 3</h3>
+                <p>Short description of this website project. What it does, who it's for, and what you built.</p>
+                <div class="work-tags">
+                  <span class="work-tag">SQL</span>
+                  <span class="work-tag">Python</span>
+                  <span class="work-tag">HTML</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== SLIDE 4 ===== -->
+          <div class="slide">
+            <div class="work-slide-inner">
+              <!--
+                REPLACE BELOW WITH YOUR WEBSITE SCREENSHOT:
+                <img src="site3-screenshot.jpg" class="work-screenshot" alt="Project 3" />
+              -->
+              <div class="work-img-placeholder">
+                <i class="fa-solid fa-globe"></i>
+                <span>Replace with screenshot of Site 4<br/><code style="font-size:.75rem">site4-screenshot.jpg</code></span>
+              </div>
+              <div class="work-info">
+                <h3>Project Title 5</h3>
+                <p>Short description of this website project. What it does, who it's for, and what you built.</p>
+                <div class="work-tags">
+                  <span class="work-tag">SQL</span>
+                  <span class="work-tag">Python</span>
+                  <span class="work-tag">HTML</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== SLIDE 5 ===== -->
+          <div class="slide">
+            <div class="work-slide-inner">
+              <!--
+                REPLACE BELOW WITH YOUR WEBSITE SCREENSHOT:
+                <img src="site3-screenshot.jpg" class="work-screenshot" alt="Project 3" />
+              -->
+              <div class="work-img-placeholder">
+                <i class="fa-solid fa-globe"></i>
+                <span>Replace with screenshot of Site 5<br/><code style="font-size:.75rem">site5-screenshot.jpg</code></span>
+              </div>
+              <div class="work-info">
+                <h3>Project Title 5</h3>
+                <p>Short description of this website project. What it does, who it's for, and what you built.</p>
+                <div class="work-tags">
+                  <span class="work-tag">SQL</span>
+                  <span class="work-tag">Python</span>
+                  <span class="work-tag">HTML</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- ===== ADD MORE SLIDES BY COPYING THE PATTERN ABOVE ===== -->
+
+        </div>
+      </div>
+
+      <div class="slider-controls reveal">
+        <button class="slide-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="slide-dots" id="slideDots"></div>
+        <button class="slide-btn" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <!-- CERTIFICATES TAB -->
+    <div class="tab-content" id="tab-certificates">
+      <div class="cert-grid reveal-stagger">
+
+        <!-- ===== CERT 1 — REPLACE WITH YOUR CERT PHOTO ===== -->
+        <div class="cert-card">
+          <!--
+            REPLACE BELOW WITH YOUR CERTIFICATE IMAGE:
+            <img src="cert1.jpg" class="cert-img" alt="Certificate 1" />
+          -->
+          <div class="cert-img-placeholder">
+            <i class="fa-solid fa-certificate"></i>
+            <span>cert1.jpg</span>
+          </div>
+          <div class="cert-info">
+            <h4>Certificate Title 1</h4>
+            <p>Issued by · Month Year</p>
+          </div>
+        </div>
+
+        <!-- ===== CERT 2 ===== -->
+        <div class="cert-card">
+          <!--
+            <img src="cert2.jpg" class="cert-img" alt="Certificate 2" />
+          -->
+          <div class="cert-img-placeholder">
+            <i class="fa-solid fa-certificate"></i>
+            <span>cert2.jpg</span>
+          </div>
+          <div class="cert-info">
+            <h4>Certificate Title 2</h4>
+            <p>Issued by · Month Year</p>
+          </div>
+        </div>
+
+        <!-- ===== CERT 3 ===== -->
+        <div class="cert-card">
+          <!--
+            <img src="cert3.jpg" class="cert-img" alt="Certificate 3" />
+          -->
+          <div class="cert-img-placeholder">
+            <i class="fa-solid fa-certificate"></i>
+            <span>cert3.jpg</span>
+          </div>
+          <div class="cert-info">
+            <h4>Certificate Title 3</h4>
+            <p>Issued by · Month Year</p>
+          </div>
+        </div>
+
+        <!-- ===== CERT 4 ===== -->
+        <div class="cert-card">
+          <!--
+            <img src="cert4.jpg" class="cert-img" alt="Certificate 4" />
+          -->
+          <div class="cert-img-placeholder">
+            <i class="fa-solid fa-certificate"></i>
+            <span>cert4.jpg</span>
+          </div>
+          <div class="cert-info">
+            <h4>Certificate Title 4</h4>
+            <p>Issued by · Month Year</p>
+          </div>
+        </div>
+
+        <!-- ===== ADD MORE CERTS BY COPYING THE PATTERN ABOVE ===== -->
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section id="contact">
+    <p class="section-label reveal">Let's Connect</p>
+    <h2 class="section-title reveal">Find Me <span style="color:var(--accent)">Online</span></h2>
+
+    <div class="contact-wrap">
+      <div>
+        <div class="contact-text reveal">
+          <h3>Open to collaborations, freelance work & new connections.</h3>
+          <p>Feel free to reach out through any of my social channels below. I'd love to connect!</p>
+        </div>
+
+        <!-- SOCIAL LINKS — REPLACE href="#" WITH YOUR ACTUAL LINKS -->
+
+        <a href="mailto:aeroncma@gmail.com" class="contact-item reveal"><!-- REPLACE your@email.com WITH YOUR ACTUAL EMAIL -->
+          <div class="contact-icon em"><i class="fa-solid fa-envelope"></i></div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">aeroncma@gmail.com</div><!-- REPLACE -->
+          </div>
+        </a>
+            
+        <a href="https://github.com/nickcomia" target="_blank" class="contact-item reveal"><!-- REPLACE # WITH YOUR GITHUB URL -->
+          <div class="contact-icon gh"><i class="fa-brands fa-github"></i></div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">@nickcomia</div><!-- REPLACE -->
+          </div>
+        </a>
+
+        <a href="https://www.linkedin.com/in/nick-aeron-comia-20a0133b3/" target="_blank" class="contact-item reveal"><!-- REPLACE # WITH YOUR LINKEDIN URL -->
+          <div class="contact-icon li"><i class="fa-brands fa-linkedin"></i></div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-value">Nick Aeron Comia</div><!-- REPLACE -->
+          </div>
+        </a>
+
+        <a href="https://www.facebook.com/c.nickaeron" target="_blank" class="contact-item reveal"><!-- REPLACE # WITH YOUR FACEBOOK URL -->
+          <div class="contact-icon fb"><i class="fa-brands fa-facebook"></i></div>
+          <div>
+            <div class="contact-label">Facebook</div>
+            <div class="contact-value">Nick Aeron Comia</div><!-- REPLACE -->
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/nx_ron/" target="_blank" class="contact-item reveal"><!-- REPLACE # WITH YOUR INSTAGRAM URL -->
+          <div class="contact-icon ig"><i class="fa-brands fa-instagram"></i></div>
+          <div>
+            <div class="contact-label">Instagram</div>
+            <div class="contact-value">@nx_ron</div><!-- REPLACE -->
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Location Card -->
+      <div class="location-card reveal">
+        <div class="location-map">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Batangas, Philippines</span>
+        </div>
+        <div class="location-body">
+          <h4>Based in Batangas</h4>
+          <p>Batangas State University – JPLPC Malvar Campus<br />Batangas, Philippines</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+    <footer>
+    <div class="footer-left">
+      <!-- ⬇ EDIT YOUR NAME HERE -->
+      © 2026 <span>Nick Aeron Comia</span>.
+    </div>
+    <div class="footer-right">
+      <a href="#home" class="footer-link">Home</a>
+      <a href="#about" class="footer-link">About</a>
+      <a href="#work" class="footer-link">Work</a>
+      <a href="#contact" class="footer-link">Contact</a>
+    </div>
+  </footer>
+
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // ===== CUSTOM CURSOR =====
+    const cursorOuter = document.getElementById('cursor-outer');
+    const cursorInner = document.getElementById('cursor-inner');
+    let mouseX = 0, mouseY = 0;
+    let outerX = 0, outerY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorInner.style.left = mouseX + 'px';
+      cursorInner.style.top  = mouseY + 'px';
+    });
+
+    // Smooth outer cursor
+    function animateCursor() {
+      outerX += (mouseX - outerX) * 0.15;
+      outerY += (mouseY - outerY) * 0.15;
+      cursorOuter.style.left = outerX + 'px';
+      cursorOuter.style.top  = outerY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Cursor scale on interactive elements
+    document.querySelectorAll('a, button, .skill-tag, .cert-card, .tab-btn, .slide-btn').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorOuter.style.width = '52px';
+        cursorOuter.style.height = '52px';
+        cursorOuter.style.background = 'var(--accent-glow)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorOuter.style.width = '36px';
+        cursorOuter.style.height = '36px';
+        cursorOuter.style.background = 'transparent';
+      });
+    });
+
+    // ===== THEME TOGGLE =====
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon   = document.getElementById('themeIcon');
+    const html        = document.documentElement;
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeIcon.className = isDark ? 'fa-solid fa-sun theme-icon' : 'fa-solid fa-moon theme-icon';
+    });
+
+    // ===== ACTIVE NAV LINK ON SCROLL =====
+    const sections  = document.querySelectorAll('section');
+    const navAnchors = document.querySelectorAll('.nav-links a');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navAnchors.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Logo click → home
+    document.getElementById('logo-link').addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('home').scrollIntoView({ behavior:'smooth' });
+    });
+
+    // ===== SCROLL REVEAL =====
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // ===== WORK TABS =====
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ===== WEBSITE SLIDER (Phone-brand smooth transition) =====
+    const track    = document.getElementById('slidesTrack');
+    const slides   = track ? track.children : [];
+    const dotsWrap = document.getElementById('slideDots');
+    let current    = 0;
+    let autoTimer;
+
+    function buildDots() {
+      if (!dotsWrap) return;
+      dotsWrap.innerHTML = '';
+      Array.from(slides).forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+      });
+    }
+
+    function goTo(idx) {
+      current = (idx + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function startAuto() {
+      autoTimer = setInterval(() => goTo(current + 1), 4500);
+    }
+    function stopAuto() { clearInterval(autoTimer); }
+
+    if (slides.length > 0) {
+      buildDots();
+      startAuto();
+
+      document.getElementById('prevBtn').addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+      document.getElementById('nextBtn').addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; stopAuto(); }, { passive:true });
+      track.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+        startAuto();
+      });
+    }
+  </script>
+</body>
+</html>
