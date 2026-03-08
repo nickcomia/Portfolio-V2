@@ -85,7 +85,6 @@
       border-radius: 10px;
     }
 
-    /* Subtle noise texture */
     body::before {
       content: '';
       position: fixed;
@@ -197,7 +196,7 @@
       cursor: pointer;
     }
 
-    /* ★ LOGO — marching ants SVG border ★ */
+    /* Logo box with marching ants SVG border */
     .logo-box {
       width: 44px;
       height: 44px;
@@ -212,7 +211,6 @@
       position: relative;
     }
 
-    /* SVG draws the animated dashed border */
     .logo-svg {
       position: absolute;
       inset: 0;
@@ -222,7 +220,6 @@
       overflow: visible;
     }
 
-    /* Dashes march around the square path */
     .logo-svg rect {
       fill: none;
       stroke: #00C8FF;
@@ -239,13 +236,11 @@
       }
     }
 
-    /* Logo text/image sits above the SVG */
     .logo-inner {
       position: relative;
       z-index: 1;
     }
 
-    /* Nav links */
     .tnav {
       display: flex;
       gap: 6px;
@@ -278,7 +273,6 @@
       box-shadow: 0 0 14px rgba(0, 200, 255, 0.09);
     }
 
-    /* Theme toggle switch */
     .tog {
       width: 52px;
       height: 28px;
@@ -326,7 +320,7 @@
 
 
     /* ================================================
-       SECTION BASE STYLES
+       SECTION BASE
     ================================================ */
 
     section {
@@ -371,7 +365,6 @@
       background: linear-gradient(90deg, transparent, var(--border), transparent);
     }
 
-    /* Decorative background blobs */
     .blob {
       position: absolute;
       border-radius: 50%;
@@ -411,7 +404,6 @@
       overflow: hidden;
     }
 
-    /* Floating decorative dots */
     .hdot {
       position: absolute;
       border-radius: 50%;
@@ -463,7 +455,6 @@
       min-width: 0;
     }
 
-    /* "Available" pill badge */
     .pill {
       display: inline-flex;
       align-items: center;
@@ -492,7 +483,6 @@
       animation: pdot 1.6s ease-in-out infinite;
     }
 
-    /* ★ CHANGE NAME, ROLE, BIO IN THE HTML BELOW ★ */
     .h-hi {
       font-family: 'Syne', sans-serif;
       font-size: clamp(1.5rem, 3.4vw, 3.3rem);
@@ -595,7 +585,12 @@
       transform: translateY(-3px);
     }
 
-    /* ★ CV Download button — change href in HTML ★ */
+    /* ★ CV button with dropdown ★ */
+    .cv-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+
     .btn-cv {
       padding: clamp(10px, 1.4vw, 14px) clamp(20px, 2.8vw, 32px);
       background: transparent;
@@ -607,7 +602,6 @@
       border: 1.5px solid var(--border);
       border-radius: 10px;
       cursor: pointer;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -621,10 +615,62 @@
       box-shadow: 0 4px 18px var(--glow);
     }
 
+    /* Dropdown menu */
+    .cv-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 190px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 500;
+    }
+
+    .cv-dropdown.open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .cv-option {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 13px 18px;
+      text-decoration: none;
+      color: var(--t2);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.83rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cv-option:hover {
+      background: rgba(0, 200, 255, 0.08);
+      color: var(--accent);
+    }
+
+    .cv-option i {
+      font-size: 0.9rem;
+      color: var(--accent);
+      width: 16px;
+      text-align: center;
+    }
+
+    .cv-option + .cv-option {
+      border-top: 1px solid var(--border);
+    }
+
 
     /* ================================================
-       FLIP CARD  (Profile Photo + Video)
-       Tap or click the card to flip between photo & video
+       FLIP CARD
     ================================================ */
 
     .h-img {
@@ -635,7 +681,6 @@
       animation: fin 0.9s 0.5s forwards;
     }
 
-    /* Outer wrapper — handles float and perspective */
     .phone-wrap {
       width: 100%;
       max-width: clamp(160px, 21vw, 282px);
@@ -645,7 +690,6 @@
       animation: flt 4s ease-in-out 1.4s infinite;
     }
 
-    /* The inner card that rotates on click */
     .phone-flip {
       width: 100%;
       height: 100%;
@@ -654,12 +698,10 @@
       transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* JS adds .flipped to .phone-wrap to trigger the rotation */
     .phone-wrap.flipped .phone-flip {
       transform: rotateY(180deg);
     }
 
-    /* Shared styles for both card faces */
     .phone-front,
     .phone-back {
       position: absolute;
@@ -673,12 +715,10 @@
       -webkit-backface-visibility: hidden;
     }
 
-    /* Back face starts pre-rotated so it shows correctly after flip */
     .phone-back {
       transform: rotateY(180deg);
     }
 
-    /* Glowing dot on front face */
     .phone-front::before {
       content: '';
       position: absolute;
@@ -693,7 +733,6 @@
       animation: pdot 2s ease-in-out infinite;
     }
 
-    /* Bottom gradient fade on front face */
     .phone-front::after {
       content: '';
       position: absolute;
@@ -706,7 +745,6 @@
       pointer-events: none;
     }
 
-    /* Video fills the entire back face */
     .phone-back video {
       width: 100%;
       height: 100%;
@@ -714,7 +752,6 @@
       display: block;
     }
 
-    /* Floating up and down animation */
     @keyframes flt {
       0%, 100% {
         transform: translateY(0) rotate(0deg);
@@ -724,7 +761,6 @@
       }
     }
 
-    /* Photo placeholder shown until you add your real photo */
     .photo-ph {
       width: 100%;
       height: 100%;
@@ -761,7 +797,6 @@
       margin-top: 36px;
     }
 
-    /* ★ CHANGE ABOUT TEXT IN HTML ★ */
     .about-text p {
       color: var(--t2);
       line-height: 1.85;
@@ -801,7 +836,6 @@
       gap: 9px;
     }
 
-    /* ★ ADD OR REMOVE SKILL TAGS IN HTML ★ */
     .sk-tag {
       display: flex;
       align-items: center;
@@ -827,7 +861,6 @@
       color: var(--accent);
     }
 
-    /* ★ Currently Learning box — change tags in HTML ★ */
     .learning-cat {
       background: rgba(0, 200, 255, 0.04);
       border: 1px solid rgba(0, 200, 255, 0.18);
@@ -854,7 +887,7 @@
 
 
     /* ================================================
-       WORK SECTION — TABS
+       WORK — TABS
     ================================================ */
 
     #work {
@@ -926,7 +959,6 @@
       overflow: hidden;
     }
 
-    /* ★ Replace s-ph div with <img> or <video> in HTML ★ */
     .s-media {
       width: 100%;
       height: clamp(190px, 26vw, 360px);
@@ -981,7 +1013,6 @@
       font-weight: 700;
     }
 
-    /* ★ GitHub link — change href in HTML ★ */
     .s-gh {
       display: inline-flex;
       align-items: center;
@@ -1028,7 +1059,6 @@
       color: var(--accent);
     }
 
-    /* Slider controls */
     .s-ctrl {
       display: flex;
       align-items: center;
@@ -1079,7 +1109,7 @@
 
 
     /* ================================================
-       UI/UX DESIGN GRID
+       UI/UX GRID
     ================================================ */
 
     .uiux-grid {
@@ -1102,7 +1132,6 @@
       border-color: rgba(0, 200, 255, 0.30);
     }
 
-    /* ★ Replace uiux-ph div with <img> or <video> in HTML ★ */
     .uiux-media {
       width: 100%;
       height: clamp(160px, 20vw, 240px);
@@ -1201,7 +1230,6 @@
       gap: clamp(12px, 1.8vw, 20px);
     }
 
-    /* ★ Click any cert card to open the modal ★ */
     .cert-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -1217,7 +1245,6 @@
       border-color: rgba(0, 200, 255, 0.30);
     }
 
-    /* ★ Replace cert-ph div with <img class="cert-img" src="cert.jpg"> ★ */
     .cert-img {
       width: 100%;
       height: clamp(128px, 15vw, 174px);
@@ -1426,7 +1453,6 @@
       font-size: clamp(0.82rem, 1vw, 0.95rem);
     }
 
-    /* ★ Change href and text in HTML ★ */
     .ct-item {
       display: flex;
       align-items: center;
@@ -1458,7 +1484,6 @@
       flex-shrink: 0;
     }
 
-    /* Social icon colors */
     .fb {
       background: rgba(24, 119, 242, 0.12);
       color: #1877F2;
@@ -1548,7 +1573,6 @@
       box-shadow: 0 0 10px rgba(0, 200, 255, 0.07);
     }
 
-    /* ★ Change "Your Name" in HTML ★ */
     .f-copy {
       color: var(--t3);
       font-size: 0.79rem;
@@ -1562,7 +1586,7 @@
 
 
     /* ================================================
-       SCROLL REVEAL ANIMATIONS
+       SCROLL REVEAL
     ================================================ */
 
     .rev {
@@ -1757,7 +1781,6 @@
   <div id="cur-o"></div>
   <div id="cur-i"></div>
 
-  <!-- Back to top button — appears after scrolling down -->
   <button id="back-top" title="Back to top">
     <i class="fa-solid fa-chevron-up"></i>
   </button>
@@ -1771,10 +1794,7 @@
     <a href="#home" class="logo-a" id="logo-link">
       <div class="logo-box">
 
-        <!--
-          Marching ants border — dashes travel around the square.
-          rx/ry="9" matches the border-radius of .logo-box (10px).
-        -->
+        <!-- Marching ants SVG border -->
         <svg class="logo-svg"
              viewBox="0 0 44 44"
              xmlns="http://www.w3.org/2000/svg">
@@ -1791,7 +1811,6 @@
           />
         </svg>
 
-        <!-- Logo text — sits above the SVG -->
         <span class="logo-inner">
             <img src="logo.png"
                  style="width:28px;height:28px;object-fit:contain;">
@@ -1845,12 +1864,44 @@
       </p>
 
       <div class="h-btns">
-        <a href="#work"    class="btn-p">View My Work</a>
+
+        <a href="#work" class="btn-p">View My Work</a>
+
         <a href="#contact" class="btn-o">Get In Touch</a>
-        <!-- ★ CHANGE href to your CV filename e.g. "resume.pdf" ★ -->
-        <a href="resume.pdf" download class="btn-cv">
-          <i class="fa-solid fa-download"></i> Download CV
-        </a>
+
+        <!--
+          CV Button — click to choose between View or Download.
+          ★ CHANGE "resume.pdf" in both links below to your actual filename ★
+        -->
+        <div class="cv-wrap">
+
+          <button class="btn-cv" id="cvBtn">
+            <i class="fa-solid fa-file-lines"></i>
+            CV / Resume
+            <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;"></i>
+          </button>
+
+          <div class="cv-dropdown" id="cvDropdown">
+
+            <!-- Opens PDF in a new tab -->
+            <a href="resume.pdf"
+               target="_blank"
+               class="cv-option">
+              <i class="fa-solid fa-eye"></i>
+              View Resume
+            </a>
+
+            <!-- Downloads the PDF to device -->
+            <a href="resume.pdf"
+               download
+               class="cv-option">
+              <i class="fa-solid fa-download"></i>
+              Download Resume
+            </a>
+
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -1863,18 +1914,18 @@
       <div class="phone-wrap" id="phoneWrap">
         <div class="phone-flip">
 
-          <!-- FRONT FACE: Your Photo -->
+          <!-- FRONT: Your Photo -->
           <div class="phone-front">
               <img src="pfp.JPG"
                    style="width:100%;height:100%;object-fit:cover;object-position:top;">
           </div>
 
-          <!-- BACK FACE: Your Short Video -->
+          <!-- BACK: Your Short Video -->
           <div class="phone-back">
             <!--
               ★ CHANGE src to your video filename ★
-              Put the video in the same folder as this HTML.
-              Keep it short — 5 to 15 seconds is ideal.
+              Put it in the same folder as this HTML.
+              Keep it 5 to 15 seconds long.
             -->
             <video src="Vid.mp4" loop playsinline muted id="flipVideo"></video>
           </div>
@@ -2078,7 +2129,7 @@
             </div>
           </div>
 
-          <!-- ════ COPY A SLIDE ABOVE TO ADD MORE PROJECTS ════ -->
+          <!-- ════ COPY A SLIDE ABOVE TO ADD MORE ════ -->
 
         </div>
       </div>
@@ -2101,8 +2152,8 @@
       <div class="uiux-grid revs">
 
         <!-- ════ UIUX CARD 1 ════
-          Image: replace uiux-ph div with → <img src="design1.jpg" alt="Design 1">
-          Video: replace uiux-ph div with →
+          Image: replace uiux-ph with → <img src="design1.jpg" alt="">
+          Video: replace uiux-ph with →
             <span class="vid-badge"><i class="fa-solid fa-play"></i> Video</span>
             <video src="design1.mp4" autoplay muted loop playsinline></video>
         -->
@@ -2188,8 +2239,8 @@
       <div class="cert-grid revs">
 
         <!-- ════ CERT 1 ════
-          Replace cert-ph div with: <img src="cert1.jpg" class="cert-img" alt="Cert 1">
-          Fill in: data-title, data-issuer, data-desc
+          Replace cert-ph with: <img src="cert1.jpg" class="cert-img" alt="Cert">
+          Fill in data-title, data-issuer, data-desc
         -->
         <div class="cert-card"
              data-title="Certificate Title 1"
@@ -2276,7 +2327,6 @@
 
   <!-- ============================================
        CERTIFICATE MODAL
-       Opens when you click any cert card
   ============================================ -->
   <div id="cert-modal">
     <div class="modal-box">
@@ -2354,7 +2404,8 @@
     </a><!-- ★ CHANGE href to mailto:your@email.com ★ -->
     </div>
   </section>
-  
+
+
   <!-- ============================================
        FOOTER
   ============================================ -->
@@ -2377,6 +2428,27 @@
   ============================================ -->
   <script>
   (function () {
+
+
+    /* ── CV DROPDOWN ────────────────────────────
+       Click "CV / Resume" to show View or Download.
+       Click anywhere outside to close.
+    ─────────────────────────────────────────── */
+    var cvBtn      = document.getElementById('cvBtn');
+    var cvDropdown = document.getElementById('cvDropdown');
+
+    cvBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      cvDropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function () {
+      cvDropdown.classList.remove('open');
+    });
+
+    cvDropdown.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
 
 
     /* ── FLIP CARD ──────────────────────────────
@@ -2419,7 +2491,6 @@
       requestAnimationFrame(loop);
     })();
 
-    /* Cursor grows when hovering interactive elements */
     document.querySelectorAll(
       'a, button, .sk-tag, .cert-card, .uiux-card, .tab-btn, .s-btn, .cert-view-btn, .phone-wrap'
     ).forEach(function (el) {
@@ -2460,7 +2531,7 @@
     });
 
 
-    /* ── ACTIVE NAV HIGHLIGHT ON SCROLL ─────── */
+    /* ── ACTIVE NAV HIGHLIGHT ────────────────── */
     var sections = document.querySelectorAll('section[id]');
     var topLinks = document.querySelectorAll('.tnav a');
     var ftrLinks = document.querySelectorAll('.f-link');
@@ -2484,7 +2555,6 @@
       }, { threshold: 0.3 }).observe(s);
     });
 
-    /* Logo click scrolls to top */
     document.getElementById('logo-link').addEventListener('click', function (e) {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2508,16 +2578,12 @@
     /* ── WORK TABS ───────────────────────────── */
     document.querySelectorAll('.tab-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-
-        /* Remove active from all buttons and panes */
         document.querySelectorAll('.tab-btn').forEach(function (b) {
           b.classList.remove('active');
         });
         document.querySelectorAll('.tab-pane').forEach(function (p) {
           p.classList.remove('active');
         });
-
-        /* Activate the clicked button and its pane */
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
       });
@@ -2578,7 +2644,6 @@
         startAuto();
       });
 
-      /* Swipe support on mobile */
       var touchStartX = 0;
 
       track.addEventListener('touchstart', function (e) {
@@ -2605,13 +2670,10 @@
 
     document.querySelectorAll('.cert-card').forEach(function (card) {
       card.addEventListener('click', function () {
-
-        /* Fill in modal content from data attributes */
         mTitle.textContent = card.dataset.title  || 'Certificate';
         mIssuer.innerHTML  = card.dataset.issuer || '';
         mDesc.textContent  = card.dataset.desc   || 'No description provided.';
 
-        /* Show image if available */
         var imgSrc  = card.dataset.img;
         var cardImg = card.querySelector('.cert-img');
 
@@ -2636,7 +2698,6 @@
       document.body.style.overflow = '';
     }
 
-    /* Close modal on X button, backdrop click, or Escape key */
     document.getElementById('modalClose').addEventListener('click', closeModal);
 
     modal.addEventListener('click', function (e) {
