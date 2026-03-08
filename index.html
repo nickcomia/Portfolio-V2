@@ -14,9 +14,10 @@
 
   <style>
 
-    /* ==============================================
+    /* ================================================
        COLOR VARIABLES
-    ============================================== */
+    ================================================ */
+
     :root {
       --bg:     #070F1E;
       --bg2:    #0D1B2E;
@@ -46,10 +47,13 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        RESET
-    ============================================== */
-    *, *::before, *::after {
+    ================================================ */
+
+    *,
+    *::before,
+    *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -81,7 +85,7 @@
       border-radius: 10px;
     }
 
-    /* Subtle noise texture overlay */
+    /* Subtle noise texture */
     body::before {
       content: '';
       position: fixed;
@@ -93,9 +97,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        CUSTOM CURSOR
-    ============================================== */
+    ================================================ */
+
     #cur-o {
       position: fixed;
       width: 36px;
@@ -123,9 +128,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        BACK TO TOP BUTTON
-    ============================================== */
+    ================================================ */
+
     #back-top {
       position: fixed;
       bottom: 32px;
@@ -162,9 +168,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        TOP NAVIGATION
-    ============================================== */
+    ================================================ */
+
     #top-nav {
       position: fixed;
       top: 0;
@@ -190,12 +197,11 @@
       cursor: pointer;
     }
 
+    /* ★ LOGO — marching ants SVG border ★ */
     .logo-box {
       width: 44px;
       height: 44px;
       border-radius: 10px;
-      border: 2px dashed var(--accent);
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -203,13 +209,43 @@
       font-weight: 700;
       font-size: 9px;
       color: var(--accent);
-      transition: border-style 0.3s;
+      position: relative;
     }
 
-    .logo-box:hover {
-      border-style: solid;
+    /* SVG draws the animated dashed border */
+    .logo-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
     }
 
+    /* Dashes march around the square path */
+    .logo-svg rect {
+      fill: none;
+      stroke: #00C8FF;
+      stroke-width: 2;
+      stroke-dasharray: 6 4;
+      stroke-dashoffset: 0;
+      filter: drop-shadow(0 0 3px #00C8FF);
+      animation: march 1.8s linear infinite;
+    }
+
+    @keyframes march {
+      to {
+        stroke-dashoffset: -40;
+      }
+    }
+
+    /* Logo text/image sits above the SVG */
+    .logo-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Nav links */
     .tnav {
       display: flex;
       gap: 6px;
@@ -289,9 +325,10 @@
     }
 
 
-    /* ==============================================
-       SECTION BASE
-    ============================================== */
+    /* ================================================
+       SECTION BASE STYLES
+    ================================================ */
+
     section {
       position: relative;
       z-index: 1;
@@ -360,9 +397,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        HERO SECTION
-    ============================================== */
+    ================================================ */
+
     #home {
       display: grid;
       grid-template-columns: 1fr clamp(170px, 21vw, 290px);
@@ -411,8 +449,14 @@
     }
 
     @keyframes pdot {
-      0%, 100% { transform: scale(1);    opacity: 0.8; }
-      50%       { transform: scale(1.35); opacity: 1;   }
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.35);
+        opacity: 1;
+      }
     }
 
     .hero-content {
@@ -448,7 +492,7 @@
       animation: pdot 1.6s ease-in-out infinite;
     }
 
-    /* ★ CHANGE YOUR NAME, ROLE, BIO IN THE HTML BELOW ★ */
+    /* ★ CHANGE NAME, ROLE, BIO IN THE HTML BELOW ★ */
     .h-hi {
       font-family: 'Syne', sans-serif;
       font-size: clamp(1.5rem, 3.4vw, 3.3rem);
@@ -501,7 +545,7 @@
       animation: fup 0.55s 0.85s forwards;
     }
 
-    /* Primary button (filled) */
+    /* Primary filled button */
     .btn-p {
       padding: clamp(10px, 1.4vw, 14px) clamp(20px, 2.8vw, 32px);
       background: var(--accent);
@@ -551,7 +595,7 @@
       transform: translateY(-3px);
     }
 
-    /* ★ CV Download button ★ — change href to your PDF file in HTML */
+    /* ★ CV Download button — change href in HTML ★ */
     .btn-cv {
       padding: clamp(10px, 1.4vw, 14px) clamp(20px, 2.8vw, 32px);
       background: transparent;
@@ -578,10 +622,11 @@
     }
 
 
-    /* ==============================================
-       FLIP CARD (Profile Photo + Video)
-       Click or tap to flip between photo and video
-    ============================================== */
+    /* ================================================
+       FLIP CARD  (Profile Photo + Video)
+       Tap or click the card to flip between photo & video
+    ================================================ */
+
     .h-img {
       display: flex;
       justify-content: center;
@@ -590,7 +635,7 @@
       animation: fin 0.9s 0.5s forwards;
     }
 
-    /* Outer wrapper — handles float animation and perspective */
+    /* Outer wrapper — handles float and perspective */
     .phone-wrap {
       width: 100%;
       max-width: clamp(160px, 21vw, 282px);
@@ -600,7 +645,7 @@
       animation: flt 4s ease-in-out 1.4s infinite;
     }
 
-    /* Inner card that rotates on click */
+    /* The inner card that rotates on click */
     .phone-flip {
       width: 100%;
       height: 100%;
@@ -609,12 +654,12 @@
       transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* When .flipped is added by JS, the card rotates */
+    /* JS adds .flipped to .phone-wrap to trigger the rotation */
     .phone-wrap.flipped .phone-flip {
       transform: rotateY(180deg);
     }
 
-    /* Shared styles for both faces */
+    /* Shared styles for both card faces */
     .phone-front,
     .phone-back {
       position: absolute;
@@ -633,7 +678,7 @@
       transform: rotateY(180deg);
     }
 
-    /* Glowing dot decoration on front */
+    /* Glowing dot on front face */
     .phone-front::before {
       content: '';
       position: absolute;
@@ -648,7 +693,7 @@
       animation: pdot 2s ease-in-out infinite;
     }
 
-    /* Bottom fade on front face */
+    /* Bottom gradient fade on front face */
     .phone-front::after {
       content: '';
       position: absolute;
@@ -661,7 +706,7 @@
       pointer-events: none;
     }
 
-    /* Video on back fills the entire card */
+    /* Video fills the entire back face */
     .phone-back video {
       width: 100%;
       height: 100%;
@@ -669,13 +714,17 @@
       display: block;
     }
 
-    /* Floating animation */
+    /* Floating up and down animation */
     @keyframes flt {
-      0%, 100% { transform: translateY(0) rotate(0deg);    }
-      50%       { transform: translateY(-10px) rotate(0.3deg); }
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(0.3deg);
+      }
     }
 
-    /* Photo placeholder (shown until you add your photo) */
+    /* Photo placeholder shown until you add your real photo */
     .photo-ph {
       width: 100%;
       height: 100%;
@@ -696,9 +745,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        ABOUT SECTION
-    ============================================== */
+    ================================================ */
+
     #about {
       min-height: auto;
     }
@@ -777,7 +827,7 @@
       color: var(--accent);
     }
 
-    /* ★ Currently Learning box ★ — change tags in HTML */
+    /* ★ Currently Learning box — change tags in HTML ★ */
     .learning-cat {
       background: rgba(0, 200, 255, 0.04);
       border: 1px solid rgba(0, 200, 255, 0.18);
@@ -803,9 +853,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        WORK SECTION — TABS
-    ============================================== */
+    ================================================ */
+
     #work {
       min-height: auto;
       padding-bottom: clamp(60px, 8vw, 100px);
@@ -850,9 +901,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        PROJECTS SLIDER
-    ============================================== */
+    ================================================ */
+
     .slider-wrap {
       overflow: hidden;
       border-radius: 16px;
@@ -929,7 +981,7 @@
       font-weight: 700;
     }
 
-    /* ★ GitHub button — change href in HTML ★ */
+    /* ★ GitHub link — change href in HTML ★ */
     .s-gh {
       display: inline-flex;
       align-items: center;
@@ -1026,9 +1078,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        UI/UX DESIGN GRID
-    ============================================== */
+    ================================================ */
+
     .uiux-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(clamp(200px, 22vw, 300px), 1fr));
@@ -1069,7 +1122,6 @@
       display: block;
     }
 
-    /* Video indicator badge */
     .vid-badge {
       position: absolute;
       top: 10px;
@@ -1139,16 +1191,17 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        CERTIFICATES GRID
-    ============================================== */
+    ================================================ */
+
     .cert-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(clamp(155px, 19vw, 250px), 1fr));
       gap: clamp(12px, 1.8vw, 20px);
     }
 
-    /* ★ Click a cert card to open the modal ★ */
+    /* ★ Click any cert card to open the modal ★ */
     .cert-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -1229,9 +1282,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        CERTIFICATE MODAL
-    ============================================== */
+    ================================================ */
+
     #cert-modal {
       position: fixed;
       inset: 0;
@@ -1343,9 +1397,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        CONTACT SECTION
-    ============================================== */
+    ================================================ */
+
     #contact {
       min-height: auto;
       padding-bottom: clamp(60px, 8vw, 90px);
@@ -1371,7 +1426,7 @@
       font-size: clamp(0.82rem, 1vw, 0.95rem);
     }
 
-    /* ★ Change href and display text in HTML ★ */
+    /* ★ Change href and text in HTML ★ */
     .ct-item {
       display: flex;
       align-items: center;
@@ -1403,12 +1458,31 @@
       flex-shrink: 0;
     }
 
-    /* Icon colors per platform */
-    .fb { background: rgba(24,  119, 242, 0.12); color: #1877F2; }
-    .ig { background: rgba(225,  48, 108, 0.12); color: #E1306C; }
-    .li { background: rgba(0,   119, 181, 0.12); color: #0077B5; }
-    .gh { background: rgba(110, 118, 129, 0.12); color: #8b949e; }
-    .em { background: rgba(0,   200, 255, 0.11); color: var(--accent); }
+    /* Social icon colors */
+    .fb {
+      background: rgba(24, 119, 242, 0.12);
+      color: #1877F2;
+    }
+
+    .ig {
+      background: rgba(225, 48, 108, 0.12);
+      color: #E1306C;
+    }
+
+    .li {
+      background: rgba(0, 119, 181, 0.12);
+      color: #0077B5;
+    }
+
+    .gh {
+      background: rgba(110, 118, 129, 0.12);
+      color: #8b949e;
+    }
+
+    .em {
+      background: rgba(0, 200, 255, 0.11);
+      color: var(--accent);
+    }
 
     .ct-lbl {
       font-size: 0.68rem;
@@ -1424,9 +1498,10 @@
     }
 
 
-    /* ==============================================
+    /* ================================================
        FOOTER
-    ============================================== */
+    ================================================ */
+
     footer {
       position: relative;
       z-index: 1;
@@ -1486,9 +1561,10 @@
     }
 
 
-    /* ==============================================
-       SCROLL REVEAL
-    ============================================== */
+    /* ================================================
+       SCROLL REVEAL ANIMATIONS
+    ================================================ */
+
     .rev {
       opacity: 0;
       transform: translateY(32px);
@@ -1506,34 +1582,80 @@
       transition: opacity 0.6s, transform 0.6s;
     }
 
-    .revs.on > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.05s; }
-    .revs.on > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.14s; }
-    .revs.on > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.23s; }
-    .revs.on > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.32s; }
-    .revs.on > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.41s; }
-    .revs.on > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.50s; }
+    .revs.on > *:nth-child(1) {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.05s;
+    }
+
+    .revs.on > *:nth-child(2) {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.14s;
+    }
+
+    .revs.on > *:nth-child(3) {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.23s;
+    }
+
+    .revs.on > *:nth-child(4) {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.32s;
+    }
+
+    .revs.on > *:nth-child(5) {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.41s;
+    }
+
+    .revs.on > *:nth-child(6) {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.50s;
+    }
 
 
-    /* ==============================================
+    /* ================================================
        KEYFRAME ANIMATIONS
-    ============================================== */
+    ================================================ */
+
     @keyframes fup {
-      from { opacity: 0; transform: translateY(26px); }
-      to   { opacity: 1; transform: none; }
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
     }
 
     @keyframes fin {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
 
-    /* ==============================================
+    /* ================================================
        RESPONSIVE BREAKPOINTS
-    ============================================== */
+    ================================================ */
+
     @media (min-width: 1400px) {
-      section { padding-left: 12%; padding-right: 12%; }
-      #home   { grid-template-columns: 1fr 316px; }
+      section {
+        padding-left: 12%;
+        padding-right: 12%;
+      }
+      #home {
+        grid-template-columns: 1fr 316px;
+      }
     }
 
     @media (max-width: 1200px) {
@@ -1544,34 +1666,88 @@
     }
 
     @media (max-width: 900px) {
-      #home              { grid-template-columns: 1fr; text-align: center; gap: 22px; }
-      #home .h-img       { order: -1; }
-      .pill, .h-btns     { justify-content: center; }
-      .phone-wrap        { max-width: 192px; }
-      .hd1, .hd2, .hd3  { display: none; }
-      .about-grid        { grid-template-columns: 1fr; }
-      .ct-wrap           { max-width: 100%; }
-      footer             { justify-content: center; text-align: center; }
-      .f-copy            { margin-left: 0; }
-      .s-info-top        { flex-direction: column; gap: 8px; }
-      #back-top          { bottom: 20px; right: 20px; }
+      #home {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 22px;
+      }
+      #home .h-img {
+        order: -1;
+      }
+      .pill,
+      .h-btns {
+        justify-content: center;
+      }
+      .phone-wrap {
+        max-width: 192px;
+      }
+      .hd1,
+      .hd2,
+      .hd3 {
+        display: none;
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .ct-wrap {
+        max-width: 100%;
+      }
+      footer {
+        justify-content: center;
+        text-align: center;
+      }
+      .f-copy {
+        margin-left: 0;
+      }
+      .s-info-top {
+        flex-direction: column;
+        gap: 8px;
+      }
+      #back-top {
+        bottom: 20px;
+        right: 20px;
+      }
     }
 
     @media (max-width: 600px) {
-      .tnav       { gap: 2px; }
-      .tnav a     { padding: 6px 9px; font-size: 0.72rem; }
-      .phone-wrap { max-width: 162px; }
-      .cert-grid  { grid-template-columns: 1fr 1fr; }
-      .uiux-grid  { grid-template-columns: 1fr 1fr; }
+      .tnav {
+        gap: 2px;
+      }
+      .tnav a {
+        padding: 6px 9px;
+        font-size: 0.72rem;
+      }
+      .phone-wrap {
+        max-width: 162px;
+      }
+      .cert-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .uiux-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     @media (max-width: 420px) {
-      .tnav a          { padding: 5px 7px; font-size: 0.69rem; }
-      .phone-wrap      { max-width: 142px; }
+      .tnav a {
+        padding: 5px 7px;
+        font-size: 0.69rem;
+      }
+      .phone-wrap {
+        max-width: 142px;
+      }
       .cert-grid,
-      .uiux-grid       { grid-template-columns: 1fr; }
-      .f-link          { padding: 5px 10px; font-size: 0.7rem; }
-      .h-btns          { flex-direction: column; align-items: center; }
+      .uiux-grid {
+        grid-template-columns: 1fr;
+      }
+      .f-link {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+      }
+      .h-btns {
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
   </style>
@@ -1581,7 +1757,7 @@
   <div id="cur-o"></div>
   <div id="cur-i"></div>
 
-  <!-- ★ BACK TO TOP — appears after scrolling down ★ -->
+  <!-- Back to top button — appears after scrolling down -->
   <button id="back-top" title="Back to top">
     <i class="fa-solid fa-chevron-up"></i>
   </button>
@@ -1594,7 +1770,33 @@
 
     <a href="#home" class="logo-a" id="logo-link">
       <div class="logo-box">
-             <img src="logo.png" style="width:100%;height:100%;object-fit:contain;">
+
+        <!--
+          Marching ants border — dashes travel around the square.
+          rx/ry="9" matches the border-radius of .logo-box (10px).
+        -->
+        <svg class="logo-svg"
+             viewBox="0 0 44 44"
+             xmlns="http://www.w3.org/2000/svg">
+          <rect
+            x="1" y="1"
+            width="42" height="42"
+            rx="9" ry="9"
+            fill="none"
+            stroke="#00C8FF"
+            stroke-width="2"
+            stroke-dasharray="6 4"
+            style="animation: march 1.8s linear infinite;
+                   filter: drop-shadow(0 0 3px #00C8FF);"
+          />
+        </svg>
+
+        <!-- Logo text — sits above the SVG -->
+        <span class="logo-inner">
+            <img src="logo.png"
+                 style="width:28px;height:28px;object-fit:contain;">
+        </span>
+
       </div>
     </a>
 
@@ -1629,9 +1831,8 @@
         Available for Freelance &amp; Projects
       </div>
 
-      <div class="h-hi">Hi, I'm</div>
-
       <!-- ★ CHANGE YOUR NAME ★ -->
+      <div class="h-hi">Hi, I'm</div>
       <div class="h-name">Nick Aeron<br>Comia</div>
 
       <!-- ★ CHANGE YOUR ROLE ★ -->
@@ -1644,9 +1845,9 @@
       </p>
 
       <div class="h-btns">
-        <a href="#work"      class="btn-p">View My Work</a>
-        <a href="#contact"   class="btn-o">Get In Touch</a>
-        <!-- ★ CHANGE href to your CV file e.g. href="resume.pdf" ★ -->
+        <a href="#work"    class="btn-p">View My Work</a>
+        <a href="#contact" class="btn-o">Get In Touch</a>
+        <!-- ★ CHANGE href to your CV filename e.g. "resume.pdf" ★ -->
         <a href="resume.pdf" download class="btn-cv">
           <i class="fa-solid fa-download"></i> Download CV
         </a>
@@ -1656,8 +1857,8 @@
 
     <div class="h-img">
       <!--
-        FLIP CARD — tap or click to flip between photo and video.
-        FRONT shows your photo. BACK plays your short video.
+        FLIP CARD — tap or click to flip between your photo and video.
+        No buttons, no hints. Just tap the card.
       -->
       <div class="phone-wrap" id="phoneWrap">
         <div class="phone-flip">
@@ -1668,9 +1869,13 @@
                    style="width:100%;height:100%;object-fit:cover;object-position:top;">
           </div>
 
-          <!-- BACK FACE: Your Video -->
+          <!-- BACK FACE: Your Short Video -->
           <div class="phone-back">
-
+            <!--
+              ★ CHANGE src to your video filename ★
+              Put the video in the same folder as this HTML.
+              Keep it short — 5 to 15 seconds is ideal.
+            -->
             <video src="Vid.mp4" loop playsinline muted id="flipVideo"></video>
           </div>
 
@@ -1717,10 +1922,10 @@
             Languages &amp; Markup
           </div>
           <div class="sk-tags revs">
-            <div class="sk-tag"><i class="fa-brands fa-html5"></i>HTML</div>
-            <div class="sk-tag"><i class="fa-brands fa-css3-alt"></i>CSS</div>
-            <div class="sk-tag"><i class="fa-brands fa-python"></i>Python</div>
-            <div class="sk-tag"><i class="fa-solid fa-database"></i>SQL</div>
+            <div class="sk-tag"><i class="fa-brands fa-html5"></i> HTML</div>
+            <div class="sk-tag"><i class="fa-brands fa-css3-alt"></i> CSS</div>
+            <div class="sk-tag"><i class="fa-brands fa-python"></i> Python</div>
+            <div class="sk-tag"><i class="fa-solid fa-database"></i> SQL</div>
           </div>
         </div>
 
@@ -1731,9 +1936,9 @@
             Design &amp; UX
           </div>
           <div class="sk-tags revs">
-            <div class="sk-tag"><i class="fa-solid fa-palette"></i>UI/UX Design</div>
-            <div class="sk-tag"><i class="fa-brands fa-figma"></i>Figma</div>
-            <div class="sk-tag"><i class="fa-solid fa-sitemap"></i>Wireframing</div>
+            <div class="sk-tag"><i class="fa-solid fa-palette"></i> UI/UX Design</div>
+            <div class="sk-tag"><i class="fa-brands fa-figma"></i> Figma</div>
+            <div class="sk-tag"><i class="fa-solid fa-sitemap"></i> Wireframing</div>
           </div>
         </div>
 
@@ -1744,8 +1949,8 @@
             Tools &amp; Support
           </div>
           <div class="sk-tags revs">
-            <div class="sk-tag"><i class="fa-solid fa-code"></i>VS Code</div>
-            <div class="sk-tag"><i class="fa-solid fa-headset"></i>Technical Support</div>
+            <div class="sk-tag"><i class="fa-solid fa-code"></i> VS Code</div>
+            <div class="sk-tag"><i class="fa-solid fa-headset"></i> Technical Support</div>
           </div>
         </div>
 
@@ -1756,9 +1961,9 @@
             Currently Learning
           </div>
           <div class="sk-tags revs">
-            <div class="sk-tag"><i class="fa-brands fa-js"></i>JavaScript</div>
-            <div class="sk-tag"><i class="fa-solid fa-chart-bar"></i>Power BI</div>
-            <div class="sk-tag"><i class="fa-brands fa-react"></i>React</div>
+            <div class="sk-tag"><i class="fa-brands fa-js"></i> JavaScript</div>
+            <div class="sk-tag"><i class="fa-solid fa-chart-bar"></i> Power BI</div>
+            <div class="sk-tag"><i class="fa-brands fa-react"></i> React</div>
           </div>
         </div>
 
@@ -1794,7 +1999,7 @@
           <!-- ════ SLIDE 1 ════
             Image: replace s-ph div with → <img src="site1.jpg" alt="Project 1">
             Video: replace s-ph div with → <video src="demo1.mp4" autoplay muted loop playsinline></video>
-            GitHub: change href="#" to your repo URL
+            GitHub: change href="#" to your actual repo URL
           -->
           <div class="slide">
             <div class="s-inner">
@@ -1879,9 +2084,13 @@
       </div>
 
       <div class="s-ctrl rev">
-        <button class="s-btn" id="sPrev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="s-btn" id="sPrev">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
         <div class="s-dots" id="sDots"></div>
-        <button class="s-btn" id="sNext"><i class="fa-solid fa-chevron-right"></i></button>
+        <button class="s-btn" id="sNext">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
 
     </div>
@@ -2067,7 +2276,7 @@
 
   <!-- ============================================
        CERTIFICATE MODAL
-       (opens when you click a cert card)
+       Opens when you click any cert card
   ============================================ -->
   <div id="cert-modal">
     <div class="modal-box">
@@ -2077,7 +2286,8 @@
         </button>
         <div id="modalImgArea">
           <div class="modal-img-ph">
-            <i class="fa-solid fa-certificate" style="font-size:3rem;color:var(--steel)"></i>
+            <i class="fa-solid fa-certificate"
+               style="font-size:3rem;color:var(--steel)"></i>
           </div>
         </div>
       </div>
@@ -2102,6 +2312,7 @@
     </h2>
 
     <div class="ct-wrap">
+
       <div class="rev">
         <h3>Open to collaborations, freelance work &amp; new connections.</h3>
         <p class="ct-intro">
@@ -2109,10 +2320,9 @@
         </p>
       </div>
 
-      <!-- ★ REPLACE href="#" WITH YOUR ACTUAL URLS ★ -->
+      <!-- ★ REPLACE ALL href="#" WITH YOUR ACTUAL URLS ★ -->
 
-      <!-- Facebook -->
-       <a href="mailto:aeroncma@gmail.com" class="ct-item rev">
+      <a href="mailto:aeroncma@gmail.com" class="ct-item rev">
       <!-- REPLACE href="#" with mailto:your@email.com -->
       <div class="ct-ico em"><i class="fa-solid fa-envelope"></i></div>
       <div><div class="ct-lbl">Email</div><div class="ct-val">aeroncma@gmail.com</div></div>
@@ -2144,7 +2354,7 @@
     </a><!-- ★ CHANGE href to mailto:your@email.com ★ -->
     </div>
   </section>
-
+  
   <!-- ============================================
        FOOTER
   ============================================ -->
@@ -2168,10 +2378,11 @@
   <script>
   (function () {
 
-    /* ── FLIP CARD ──
-       Tap or click the photo card to flip to video and back.
-       No buttons needed — just click the card itself.
-    */
+
+    /* ── FLIP CARD ──────────────────────────────
+       Tap or click the photo to flip to video.
+       Tap again to flip back.
+    ─────────────────────────────────────────── */
     var wrap = document.getElementById('phoneWrap');
     var vid  = document.getElementById('flipVideo');
 
@@ -2188,7 +2399,7 @@
     }
 
 
-    /* ── CUSTOM CURSOR ── */
+    /* ── CUSTOM CURSOR ───────────────────────── */
     var co = document.getElementById('cur-o');
     var ci = document.getElementById('cur-i');
     var mx = 0, my = 0, ox = 0, oy = 0;
@@ -2208,6 +2419,7 @@
       requestAnimationFrame(loop);
     })();
 
+    /* Cursor grows when hovering interactive elements */
     document.querySelectorAll(
       'a, button, .sk-tag, .cert-card, .uiux-card, .tab-btn, .s-btn, .cert-view-btn, .phone-wrap'
     ).forEach(function (el) {
@@ -2224,7 +2436,7 @@
     });
 
 
-    /* ── BACK TO TOP ── */
+    /* ── BACK TO TOP ─────────────────────────── */
     var bt = document.getElementById('back-top');
 
     window.addEventListener('scroll', function () {
@@ -2236,19 +2448,19 @@
     });
 
 
-    /* ── THEME TOGGLE ── */
+    /* ── THEME TOGGLE ────────────────────────── */
     var togBtn = document.getElementById('togBtn');
     var togIco = document.getElementById('togIco');
     var root   = document.documentElement;
 
     togBtn.addEventListener('click', function () {
-      var dark = root.getAttribute('data-theme') === 'dark';
-      root.setAttribute('data-theme', dark ? 'light' : 'dark');
-      togIco.className = dark ? 'fa-solid fa-sun tog-ico' : 'fa-solid fa-moon tog-ico';
+      var isDark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      togIco.className = isDark ? 'fa-solid fa-sun tog-ico' : 'fa-solid fa-moon tog-ico';
     });
 
 
-    /* ── ACTIVE NAV HIGHLIGHT ON SCROLL ── */
+    /* ── ACTIVE NAV HIGHLIGHT ON SCROLL ─────── */
     var sections = document.querySelectorAll('section[id]');
     var topLinks = document.querySelectorAll('.tnav a');
     var ftrLinks = document.querySelectorAll('.f-link');
@@ -2265,21 +2477,26 @@
     sections.forEach(function (s) {
       new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
-          if (e.isIntersecting) setActive(e.target.id);
+          if (e.isIntersecting) {
+            setActive(e.target.id);
+          }
         });
       }, { threshold: 0.3 }).observe(s);
     });
 
+    /* Logo click scrolls to top */
     document.getElementById('logo-link').addEventListener('click', function (e) {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
 
-    /* ── SCROLL REVEAL ── */
+    /* ── SCROLL REVEAL ───────────────────────── */
     var ro = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) e.target.classList.add('on');
+        if (e.isIntersecting) {
+          e.target.classList.add('on');
+        }
       });
     }, { threshold: 0.1 });
 
@@ -2288,22 +2505,26 @@
     });
 
 
-    /* ── WORK TABS ── */
+    /* ── WORK TABS ───────────────────────────── */
     document.querySelectorAll('.tab-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
+
+        /* Remove active from all buttons and panes */
         document.querySelectorAll('.tab-btn').forEach(function (b) {
           b.classList.remove('active');
         });
         document.querySelectorAll('.tab-pane').forEach(function (p) {
           p.classList.remove('active');
         });
+
+        /* Activate the clicked button and its pane */
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
       });
     });
 
 
-    /* ── PROJECT SLIDER ── */
+    /* ── PROJECT SLIDER ──────────────────────── */
     var track  = document.getElementById('sTrack');
     var slides = track ? Array.from(track.children) : [];
     var dotsEl = document.getElementById('sDots');
@@ -2316,7 +2537,9 @@
       slides.forEach(function (_, i) {
         var d = document.createElement('div');
         d.className = 'dot' + (i === 0 ? ' active' : '');
-        d.addEventListener('click', function () { go(i); });
+        d.addEventListener('click', function () {
+          go(i);
+        });
         dotsEl.appendChild(d);
       });
     }
@@ -2330,7 +2553,9 @@
     }
 
     function startAuto() {
-      timer = setInterval(function () { go(cur + 1); }, 4500);
+      timer = setInterval(function () {
+        go(cur + 1);
+      }, 4500);
     }
 
     function stopAuto() {
@@ -2342,29 +2567,36 @@
       startAuto();
 
       document.getElementById('sPrev').addEventListener('click', function () {
-        stopAuto(); go(cur - 1); startAuto();
+        stopAuto();
+        go(cur - 1);
+        startAuto();
       });
 
       document.getElementById('sNext').addEventListener('click', function () {
-        stopAuto(); go(cur + 1); startAuto();
+        stopAuto();
+        go(cur + 1);
+        startAuto();
       });
 
-      var tx = 0;
+      /* Swipe support on mobile */
+      var touchStartX = 0;
 
       track.addEventListener('touchstart', function (e) {
-        tx = e.touches[0].clientX;
+        touchStartX = e.touches[0].clientX;
         stopAuto();
       }, { passive: true });
 
       track.addEventListener('touchend', function (e) {
-        var diff = tx - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) go(diff > 0 ? cur + 1 : cur - 1);
+        var diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          go(diff > 0 ? cur + 1 : cur - 1);
+        }
         startAuto();
       });
     }
 
 
-    /* ── CERTIFICATE MODAL ── */
+    /* ── CERTIFICATE MODAL ───────────────────── */
     var modal    = document.getElementById('cert-modal');
     var mTitle   = document.getElementById('modalTitle');
     var mIssuer  = document.getElementById('modalIssuer');
@@ -2373,10 +2605,13 @@
 
     document.querySelectorAll('.cert-card').forEach(function (card) {
       card.addEventListener('click', function () {
+
+        /* Fill in modal content from data attributes */
         mTitle.textContent = card.dataset.title  || 'Certificate';
         mIssuer.innerHTML  = card.dataset.issuer || '';
         mDesc.textContent  = card.dataset.desc   || 'No description provided.';
 
+        /* Show image if available */
         var imgSrc  = card.dataset.img;
         var cardImg = card.querySelector('.cert-img');
 
@@ -2401,15 +2636,21 @@
       document.body.style.overflow = '';
     }
 
+    /* Close modal on X button, backdrop click, or Escape key */
     document.getElementById('modalClose').addEventListener('click', closeModal);
 
     modal.addEventListener('click', function (e) {
-      if (e.target === modal) closeModal();
+      if (e.target === modal) {
+        closeModal();
+      }
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') {
+        closeModal();
+      }
     });
+
 
   })();
   </script>
