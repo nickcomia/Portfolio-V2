@@ -25,7 +25,6 @@
 
   /* ── FLIP CARD ──────────────────────────────
      Tap or click the photo card to flip to video.
-     Tap again to flip back to photo.
   ─────────────────────────────────────────── */
 
   var wrap = document.getElementById('phoneWrap');
@@ -161,114 +160,119 @@
   });
 
 
-  /* ── PER-SLIDE MEDIA GALLERY ─────────────────
-     Each project slide can have multiple images
-     or videos. Arrows and dots navigate between
-     them without affecting the outer slider.
-  ─────────────────────────────────────────── */
+  /* ════════════════════════════════════════════
+     PER-SLIDE MEDIA GALLERY
+     ─────────────────────────────────────────
+     Each project card has its own mini gallery.
+     • 1 attachment  → controls hidden, item shown
+     • 2+ attachments → left/right arrows + dots
+       + "1 / N" counter appear automatically
+     Swipe support — stopPropagation prevents the
+     outer project slider from also reacting.
+  ════════════════════════════════════════════ */
 
-  function initGalleries() {
-    document.querySelectorAll('.s-gallery').forEach(function (gallery) {
-      var items    = Array.from(gallery.querySelectorAll('.s-gallery-item'));
-      var total    = items.length;
-      var cur      = 0;
-      var countEl  = gallery.querySelector('.sg-count');
-      var dotsWrap = gallery.querySelector('.sg-dots');
-      var prevBtn  = gallery.querySelector('.sg-prev');
-      var nextBtn  = gallery.querySelector('.sg-next');
+  document.querySelectorAll('.s-gallery').forEach(function (gallery) {
 
-      /* Hide controls when only one attachment */
-      if (total <= 1) {
-        if (prevBtn)  prevBtn.style.display  = 'none';
-        if (nextBtn)  nextBtn.style.display  = 'none';
-        if (countEl)  countEl.style.display  = 'none';
-        if (dotsWrap) dotsWrap.style.display = 'none';
-        if (items[0]) items[0].classList.add('active');
-        return;
-      }
+    var items    = Array.from(gallery.querySelectorAll('.s-gallery-item'));
+    var total    = items.length;
+    var mediaCur = 0;
 
-      /* Build dot indicators */
-      if (dotsWrap) {
-        items.forEach(function (_, i) {
-          var d = document.createElement('div');
-          d.className = 'sg-dot' + (i === 0 ? ' active' : '');
-          d.addEventListener('click', function (e) {
-            e.stopPropagation();
-            go(i);
-          });
-          dotsWrap.appendChild(d);
+    var countEl  = gallery.querySelector('.sg-count');
+    var dotsWrap = gallery.querySelector('.sg-dots');
+    var prevBtn  = gallery.querySelector('.sg-prev');
+    var nextBtn  = gallery.querySelector('.sg-next');
+
+    if (total === 0) return;
+
+    /* Single attachment — show it, hide controls */
+    if (total === 1) {
+      items[0].classList.add('active');
+      if (prevBtn)  prevBtn.style.display  = 'none';
+      if (nextBtn)  nextBtn.style.display  = 'none';
+      if (countEl)  countEl.style.display  = 'none';
+      if (dotsWrap) dotsWrap.style.display = 'none';
+      return;
+    }
+
+    /* Build dot indicators */
+    if (dotsWrap) {
+      items.forEach(function (_, i) {
+        var d = document.createElement('div');
+        d.className = 'sg-dot';
+        d.addEventListener('click', function (e) {
+          e.stopPropagation();
+          goMedia(i);
         });
-      }
+        dotsWrap.appendChild(d);
+      });
+    }
 
-      /* Move to frame n */
-      function go(n) {
-        cur = ((n % total) + total) % total;
+    /* Navigate to media frame n */
+    function goMedia(n) {
+      mediaCur = ((n % total) + total) % total;
 
-        items.forEach(function (item, i) {
-          var isActive = (i === cur);
-          item.classList.toggle('active', isActive);
+      items.forEach(function (item, i) {
+        var isActive = (i === mediaCur);
+        item.classList.toggle('active', isActive);
 
-          /* Play/pause video items automatically */
-          var v = item.querySelector('video');
-          if (v) {
-            if (isActive) { v.play(); }
-            else          { v.pause(); v.currentTime = 0; }
-          }
-        });
-
-        /* Update counter text */
-        if (countEl) countEl.textContent = (cur + 1) + ' / ' + total;
-
-        /* Update dots */
-        if (dotsWrap) {
-          dotsWrap.querySelectorAll('.sg-dot').forEach(function (d, i) {
-            d.classList.toggle('active', i === cur);
-          });
+        var v = item.querySelector('video');
+        if (v) {
+          if (isActive) { v.play(); }
+          else          { v.pause(); v.currentTime = 0; }
         }
-      }
-
-      /* Arrow button clicks — stopPropagation so outer slider ignores them */
-      if (prevBtn) {
-        prevBtn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          go(cur - 1);
-        });
-      }
-      if (nextBtn) {
-        nextBtn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          go(cur + 1);
-        });
-      }
-
-      /* Swipe support inside the gallery */
-      var touchStartX = 0;
-      gallery.addEventListener('touchstart', function (e) {
-        touchStartX = e.touches[0].clientX;
-      }, { passive: true });
-
-      gallery.addEventListener('touchend', function (e) {
-        var diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 40) go(diff > 0 ? cur + 1 : cur - 1);
       });
 
-      /* Kick off at frame 0 */
-      go(0);
+      if (countEl) countEl.textContent = (mediaCur + 1) + ' / ' + total;
+
+      if (dotsWrap) {
+        Array.from(dotsWrap.querySelectorAll('.sg-dot')).forEach(function (d, i) {
+          d.classList.toggle('active', i === mediaCur);
+        });
+      }
+    }
+
+    /* Arrow buttons */
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        goMedia(mediaCur - 1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        goMedia(mediaCur + 1);
+      });
+    }
+
+    /* Swipe — stop outer slider from also reacting */
+    var gTouchX = 0;
+
+    gallery.addEventListener('touchstart', function (e) {
+      gTouchX = e.touches[0].clientX;
+    }, { passive: true });
+
+    gallery.addEventListener('touchend', function (e) {
+      var diff = gTouchX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        e.stopPropagation();
+        goMedia(diff > 0 ? mediaCur + 1 : mediaCur - 1);
+      }
     });
-  }
 
-  initGalleries();
+    goMedia(0); /* initialise */
+  });
 
 
-  /* ── PROJECT SLIDER (outer) ──────────────────
-     Navigates between project cards.
-     Inner gallery handles per-card media.
-  ─────────────────────────────────────────── */
+  /* ════════════════════════════════════════════
+     PROJECT SLIDER  (outer — navigates cards)
+  ════════════════════════════════════════════ */
 
   var track  = document.getElementById('sTrack');
   var slides = track ? Array.from(track.children) : [];
   var dotsEl = document.getElementById('sDots');
-  var cur    = 0;
+  var sCur   = 0;  /* renamed from cur to avoid any confusion */
   var timer;
 
   function buildDots() {
@@ -277,21 +281,21 @@
     slides.forEach(function (_, i) {
       var d = document.createElement('div');
       d.className = 'dot' + (i === 0 ? ' active' : '');
-      d.addEventListener('click', function () { go(i); });
+      d.addEventListener('click', function () { goSlide(i); });
       dotsEl.appendChild(d);
     });
   }
 
-  function go(n) {
-    cur = ((n % slides.length) + slides.length) % slides.length;
-    track.style.transform = 'translateX(-' + cur * 100 + '%)';
+  function goSlide(n) {
+    sCur = ((n % slides.length) + slides.length) % slides.length;
+    track.style.transform = 'translateX(-' + sCur * 100 + '%)';
     document.querySelectorAll('.dot').forEach(function (d, i) {
-      d.classList.toggle('active', i === cur);
+      d.classList.toggle('active', i === sCur);
     });
   }
 
   function startAuto() {
-    timer = setInterval(function () { go(cur + 1); }, 4500);
+    timer = setInterval(function () { goSlide(sCur + 1); }, 4500);
   }
 
   function stopAuto() {
@@ -303,23 +307,23 @@
     startAuto();
 
     document.getElementById('sPrev').addEventListener('click', function () {
-      stopAuto(); go(cur - 1); startAuto();
+      stopAuto(); goSlide(sCur - 1); startAuto();
     });
 
     document.getElementById('sNext').addEventListener('click', function () {
-      stopAuto(); go(cur + 1); startAuto();
+      stopAuto(); goSlide(sCur + 1); startAuto();
     });
 
-    var touchStartX = 0;
+    var sTouchX = 0;
 
     track.addEventListener('touchstart', function (e) {
-      touchStartX = e.touches[0].clientX;
+      sTouchX = e.touches[0].clientX;
       stopAuto();
     }, { passive: true });
 
     track.addEventListener('touchend', function (e) {
-      var diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) go(diff > 0 ? cur + 1 : cur - 1);
+      var diff = sTouchX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) goSlide(diff > 0 ? sCur + 1 : sCur - 1);
       startAuto();
     });
   }

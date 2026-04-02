@@ -288,81 +288,83 @@
       <div class="slider-wrap rev">
         <div class="s-track" id="sTrack">
 
-          <!-- ════ SLIDE 1 ════
-            Image: replace s-ph div with → <img src="site1.jpg" alt="Project 1">
-            Video: replace s-ph div with → <video src="demo1.mp4" autoplay muted loop playsinline></video>
-            GitHub: change href="#" to your actual repo URL
-          -->
+
+          <!-- ════════════════════════════════════════════
+               SLIDE 1
+               ─────────────────────────────────────────
+               Add your images/videos as .s-gallery-item
+               blocks inside .s-gallery-track.
+
+               Image:  <div class="s-gallery-item">
+                         <img src="file.jpg" alt="">
+                       </div>
+
+               Video:  <div class="s-gallery-item">
+                         <video src="file.mp4" muted loop playsinline></video>
+                       </div>
+
+               Arrows, dots, and counter appear
+               automatically when you have 2 or more items.
+          ════════════════════════════════════════════ -->
           <div class="slide">
             <div class="s-inner">
-
-              <!-- ════ GALLERY — add as many s-gallery-item blocks as you need ════
-                   Image:  <div class="s-gallery-item"><img src="file.jpg" alt=""></div>
-                   Video:  <div class="s-gallery-item"><video src="file.mp4" muted loop playsinline></video></div>
-              -->
               <div class="s-gallery">
                 <div class="s-gallery-track">
 
-                  <!-- Attachment 1 -->
                   <div class="s-gallery-item">
-                    <img src="ATLAS_1.png" alt="ATLAS Screenshot 1">
+                    <img src="ATLAS_1.png" alt="ATLAS screenshot 1">
                   </div>
 
-                  <!-- Attachment 2 -->
                   <div class="s-gallery-item">
-                    <img src="ATLAS_2.png" alt="ATLAS Screenshot 2">
+                    <img src="ATLAS_2.png" alt="ATLAS screenshot 2">
                   </div>
 
-                  <!-- ★ ADD MORE ATTACHMENTS HERE ★ -->
-                  <div class="s-gallery-item">
-                    <img src="ATLAS_3.png" alt="ATLAS Screenshot 3">
-                  </div>
+                  <!-- ★ Add more items here ★ -->
 
-                </div>
-                <button class="sg-prev"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="sg-next"><i class="fa-solid fa-chevron-right"></i></button>
+                </div><!-- /.s-gallery-track -->
+                <button class="sg-prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="sg-next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                 <div class="sg-dots"></div>
                 <div class="sg-count"></div>
-              </div>
+              </div><!-- /.s-gallery -->
 
               <div class="s-info">
                 <div class="s-info-top">
-                  <h3>ATLAS - Adaptive Tracking & Learning Analytics</h3><!-- ★ CHANGE ★ -->
+                  <h3>ATLAS - Adaptive Tracking &amp; Learning Analytics</h3>
                   <a href="https://nickcomia.github.io/ATLAS/" target="_blank" class="s-gh">
                     <i class="fa-brands fa-github"></i> GitHub
                   </a>
                 </div>
-                <p>This project is proposed as a title for capstone project. This only a prototype version.</p><!-- ★ CHANGE ★ -->
+                <p>This project is proposed as a title for capstone project. This only a prototype version.</p>
                 <div class="s-tags">
-                  <span class="s-tag">HTML</span><!-- ★ CHANGE TAGS ★ -->
+                  <span class="s-tag">HTML</span>
                   <span class="s-tag">CSS</span>
                   <span class="s-tag">Python</span>
                   <span class="s-tag">Javascript</span>
                 </div>
               </div>
-            </div>
-          </div>
+            </div><!-- /.s-inner -->
+          </div><!-- /.slide -->
+
 
           <!-- ════ SLIDE 2 ════ -->
           <div class="slide">
             <div class="s-inner">
-
               <div class="s-gallery">
                 <div class="s-gallery-track">
 
-                  <!-- Attachment 1 — replace with your image or video -->
                   <div class="s-gallery-item">
                     <div class="s-ph">
                       <i class="fa-solid fa-image"></i>
-                      <span>site2.jpg / demo2.mp4</span>
+                      <span>site2.jpg</span>
                     </div>
                   </div>
 
-                  <!-- Attachment 2 — duplicate block above to add more -->
+                  <!-- ★ Add more items here ★ -->
 
                 </div>
-                <button class="sg-prev"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="sg-next"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="sg-prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="sg-next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                 <div class="sg-dots"></div>
                 <div class="sg-count"></div>
               </div>
@@ -384,26 +386,25 @@
             </div>
           </div>
 
+
           <!-- ════ SLIDE 3 ════ -->
           <div class="slide">
             <div class="s-inner">
-
               <div class="s-gallery">
                 <div class="s-gallery-track">
 
-                  <!-- Attachment 1 — replace with your image or video -->
                   <div class="s-gallery-item">
                     <div class="s-ph">
                       <i class="fa-solid fa-image"></i>
-                      <span>site3.jpg / demo3.mp4</span>
+                      <span>site3.jpg</span>
                     </div>
                   </div>
 
-                  <!-- Attachment 2 — duplicate block above to add more -->
+                  <!-- ★ Add more items here ★ -->
 
                 </div>
-                <button class="sg-prev"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="sg-next"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="sg-prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="sg-next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                 <div class="sg-dots"></div>
                 <div class="sg-count"></div>
               </div>
@@ -425,11 +426,16 @@
             </div>
           </div>
 
-          <!-- ════ TO ADD A NEW PROJECT: copy one of the slides above,
-               then add/remove s-gallery-item blocks inside .s-gallery-track ════ -->
 
-        </div>
-      </div>
+          <!-- ════ TO ADD A NEW PROJECT ════
+               Copy one full .slide block above,
+               paste it here, update the .s-gallery-item
+               contents, text, tags, and GitHub link.
+          ════ -->
+
+
+        </div><!-- /#sTrack -->
+      </div><!-- /.slider-wrap -->
 
       <div class="s-ctrl rev">
         <button class="s-btn" id="sPrev">
@@ -670,10 +676,10 @@
 
       <!-- ★ REPLACE ALL href="#" WITH YOUR ACTUAL URLS ★ -->
 
-      <a href="/cdn-cgi/l/email-protection#036266716c6d606e6243646e626a6f2d606c6e" class="ct-item rev">
+      <a href="/cdn-cgi/l/email-protection#0a6b6f78656469676b4a6d676b636624696567" class="ct-item rev">
       <!-- REPLACE href="#" with mailto:your@email.com -->
       <div class="ct-ico em"><i class="fa-solid fa-envelope"></i></div>
-      <div><div class="ct-lbl">Email</div><div class="ct-val"><span class="__cf_email__" data-cfemail="2b4a4e59444548464a6b4c464a424705484446">[email&#160;protected]</span></div></div>
+      <div><div class="ct-lbl">Email</div><div class="ct-val"><span class="__cf_email__" data-cfemail="dcbdb9aeb3b2bfb1bd9cbbb1bdb5b0f2bfb3b1">[email&#160;protected]</span></div></div>
       <!-- REPLACE "your@email.com" in both the href and the text above -->
     </a>
 
